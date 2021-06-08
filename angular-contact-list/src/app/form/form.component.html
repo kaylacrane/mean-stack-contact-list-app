@@ -1,0 +1,140 @@
+<mat-toolbar color="primary">
+  <span>Add a Contact</span>
+  <span class="example-spacer"></span>
+</mat-toolbar>
+<form class="example-form" [formGroup]="contactForm">
+  <table class="example-full-width" cellspacing="0">
+    <tr>
+      <td>
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>First name</mat-label>
+          <input matInput type="text" formControlName="firstName" required />
+          <mat-error *ngIf="contactForm.get('firstName')?.invalid"
+            >Must be at least 3 characters</mat-error
+          >
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" formControlName="lastName" required />
+          <mat-error *ngIf="contactForm.get('lastName')?.invalid"
+            >Must be at least 3 characters</mat-error
+          >
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Age</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="age"
+            min="0"
+            max="125"
+            required
+          />
+          <mat-error *ngIf="contactForm.get('age')?.invalid"
+            >Must be between 0 and 125</mat-error
+          >
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input
+            #birthday
+            matInput
+            [matDatepicker]="picker"
+            formControlName="birthday"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="contactForm.get('birthday')?.invalid">
+            Use DD/MM/YYYY format</mat-error
+          >
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>DNI or NIE</mat-label>
+          <input
+            matInput
+            type="text"
+            minlength="9"
+            maxlength="9"
+            formControlName="dni"
+            required
+          />
+          <mat-error *ngIf="contactForm.get('dni')?.invalid"
+            >Incorrect DNI or NIE format</mat-error
+          >
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-radio-group
+          class="radio-buttons"
+          aria-label="Select an option"
+          formControlName="gender"
+          required
+        >
+          <mat-radio-button
+            *ngFor="let choice of genderChoices"
+            value="{{ choice }}"
+            >{{ choice }}</mat-radio-button
+          >
+        </mat-radio-group>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field appearance="outline" required>
+          <mat-label>Favorite Color</mat-label>
+          <mat-select formControlName="favColor" required>
+            <mat-option
+              matInput
+              *ngFor="let choice of colorChoices; let i = index"
+              value="{{ choice }}"
+            >
+              {{ choice }}
+            </mat-option></mat-select
+          ><mat-error *ngIf="contactForm.get('favColor')?.invalid"
+            >Choose a color</mat-error
+          >
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr class="control-buttons">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="saveContact()"
+        color="primary"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        (click)="resetFormValues()"
+        color="accent"
+      >
+        Reset
+      </button>
+    </tr>
+    <mat-error *ngIf="formError" class="form-error-message"
+      >Please fill out all form fields correctly</mat-error
+    >
+    <mat-error *ngIf="contactId !== '-1'" class="form-error-message"
+      >Please press SAVE when finished</mat-error
+    >
+  </table>
+</form>
